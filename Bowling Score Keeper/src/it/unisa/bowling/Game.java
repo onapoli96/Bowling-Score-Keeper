@@ -2,11 +2,12 @@ package it.unisa.bowling;
 
 import java.util.Random;
 
+import it.unisa.exceptions.CannotGetBonusThrowException;
 import it.unisa.exceptions.NotTenFramesException;
 
 public class Game {
 	private Frame[] frames;
-	private int firstBonusThrow = 10, secondBonusThrow = 10;
+	private int firstBonusThrow, secondBonusThrow;
 	
 	public Game() {
 		
@@ -21,6 +22,34 @@ public class Game {
 
 	public Frame[] getFrames() {
 		return frames;
+	}
+	
+	public void setFirstThrow(int firstBonusThrow) throws CannotGetBonusThrowException{
+		if(frames[9].isSpear() || frames[9].isStrike()) {
+			this.firstBonusThrow = firstBonusThrow;
+		}
+		else
+		{
+			throw new CannotGetBonusThrowException();
+		}
+	}
+	
+	public int getFirstThrow() {
+		return firstBonusThrow;
+	}
+	
+	public void setSecondThrow(int secondBonusThrow) throws CannotGetBonusThrowException{
+		if(frames[9].isStrike()) {
+			this.secondBonusThrow = secondBonusThrow;
+		}
+		else 
+		{
+			throw new CannotGetBonusThrowException();	
+		}
+	}
+	
+	public int getSecondThrow() {
+		return secondBonusThrow;
 	}
 
 	public void setFrames(Frame[] frames) throws NotTenFramesException{
@@ -73,8 +102,7 @@ public class Game {
 						realScore[i] = 10 + frames[i + 1].getTotal();
 					}
 				}
-			}
-			
+			}	
 			else {
 				realScore[i] = frames[i].getTotal();
 			}
